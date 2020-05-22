@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta name="author" content="Eleni"> 
+        <meta name="keywords" content="stack, Haskell, GHCi">
+        <meta name="description" content="This posts explains how to install and use stack to compile and run Haskell programms.">
+
+        <meta property="og:title" content="Getting started">
+       
+         <meta property="og:description" content="This posts explains how to install and use stack to compile and run Haskell programms.">
+
+        <title>Fun-land blog - Getting started</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+
+        <link rel="stylesheet" type="text/css" href="../css/asciinema-player.css" />
+        
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+      <!--  <link rel="stylesheet" type="text/css" href="css/960_12_col.css" /> -->
+
+       <!-- <link rel="icon" type="image/ico" href="/images/favicon.ico"> -->
+
+        
+        
+        
+    </head>
+    <body>
+        <nav>
+            <div class="container-fluid">
+                
+                <ul class="navbar-nav">
+                    <li><a href="../">Home</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                    <li><a href="../archive.html">Archive</a></li> 
+                    <li><a href="https://github.com/eleni-xar/eleni-xar.github.io/">Code</a></li>  
+                    <li><a href="../atom.xml"><i class="fa fa-rss"></i>&nbsp;Feed</a></li>          
+                </ul>
+            </div>
+                
+        </nav>
+            
+
+        <div class="container">  
+
+            <div class="article">
+<div class="row">
+<div class="col-xs-3"></div>
+<div class="col-xs-6" id="page">
+
+    
+            <h1>Getting started</h1> 
+    
+
+
+    <!-- <section class="header">
+        Posted on March 11, 2020
+        
+            by Eleni
+        
+    </section> -->
+    
+        <h2 id="part-1-create-your-1st-project">Part 1: Create your 1st project</h2>
+<p>In the next post, we will turn into real code the definition of addition that we designed in <a href="../posts/model-of-computation.html">A Model of Computation</a>. However, before jumping into the nitty-gritty part of programming, you need to prepare the ground. In other words, you must download and install the language that we are going to use along with some other tools.</p>
+<p>We are going to write code in Haskell, one of the most widely used functional languages. In particular, we will be using the Haskell Tool Stack. I have chosen a functional language because they are ideal for investigating the mathematical properties of a problem as we did in A Model of Computation. I will tell you more about functional languages, and the alternative option, imperative languages, later. For now, let’s focus on getting ready.</p>
+<p><a href="https://docs.haskellstack.org/en/stable/README/">This link</a> contains instructions on how to install and start using Stack, depending on your operating system (OS). In this entry, we will explain the steps of this process for Linux, Ubuntu. It is not practical for us to do this for all OSs. If for whatever reason, you face difficulties with installing Stack on your machine, you can always first install Ubuntu and follow the instructions below. It may sound like extra work, but the documentation around installing Ubuntu is much more complete. Another option is to run Ubuntu from a virtual machine, e.g. <a href="https://www.virtualbox.org/">Virtual Box</a>. Just make sure that you set aside enough space for the installation of Stack on your version of Ubuntu (virtual, or not). About 15GB should be enough; you will definitely need more than 10, as we discovered when we tried this with Virtual Box.</p>
+<p>No matter what your OS is, you first need to open a terminal (or the command prompt for Windows) <img src="../images/tools/terminal-icon-linux-ubuntu-50.jpeg" alt="terminal icon" height="40" width="50"> .The video shows the commands that you need to type in an Ubuntu Terminal and their results. Below the video, you will find a list of the same commands together with a short explanation for each step.</p>
+<asciinema-player src="../videos/315789.cast" cols="100" rows="24"></asciinema-player>
+<script src="../js/asciinema-player.js"></script>
+<h2 id="list-of-commands">List of commands</h2>
+<h3 id="fetch-and-install-stack">1. Fetch and install Stack</h3>
+<pre class="console"><code>$ wget -qO https://get.haskellstack.org/ | sh</code></pre>
+<p>This command runs a script which assumes administrator privileges and will ask you for the password you chose during your Ubuntu installation. (The <code>$</code> is just the symbol before the prompt in an Ubuntu Terminal; it is not part of the command.)</p>
+<h3 id="create-a-top-level-folder-directory-for-future-haskell-projects">2. Create a top-level folder (directory) for future Haskell projects</h3>
+<pre class="console"><code>$ mkdir &lt;name-of-top-level-folder&gt;</code></pre>
+<code>mkdir</code> stands for make directory. The <code>&lt;&gt;</code> symbols indicate that you should not copy the text inside verbatim, but replace it according to the context in which you are. In this case, you can choose how to name the folder, e.g. Haskell-projects. Just avoid spaces in the name as these do not sit well with the command line.
+</p>
+<h3 id="navigate-into-the-directory-you-just-created">3. Navigate into the directory you just created</h3>
+<pre class="console"><code>$ cd &lt;name-of-top-level-folder&gt;</code></pre>
+<p><code>cd</code> stands for change directory. We will be using <code>cd</code> often. If you are not familiar with it, take some time to do so. You will find many tutorials online with examples for your OS.</p>
+<h3 id="start-a-project">4. Start a project</h3>
+<pre class="console"><code>$ stack new &lt;project-name&gt;</code></pre>
+<p>This command initialises the project, creating a folder with the name you have chosen and populating it with a bunch of files.</p>
+<h3 id="navigate-into-the-project">5. Navigate into the project</h3>
+<pre class="console"><code>$ cd &lt;project-name&gt;</code></pre>
+<h3 id="list-the-contents-of-the-project">6. List the contents of the project</h3>
+<pre class="console"><code>$ ll</code></pre>
+<p>With this command, you can see the contents of your project. (On a Windows or Mac, you would have to use <code>ls -l</code>). You will get a result like the one below. Most of these files are auxiliary. There are only two folders that contain Haskell code files: <code>app</code> and <code>src</code> (from source). The idea is that <code>app</code> will hold an application; the part of your program with which a user will interact; while <code>src</code> will serve as a library, providing all the code which is irrelevant to the use but your app still needs to function.</p>
+<pre class="console"><code>total 52
+drwxr-xr-x  5 &lt;machine-name&gt; &lt;machine-name&gt; 4096 Apr  1 11:20 ./
+drwxr-xr-x 16 &lt;machine-name&gt; &lt;machine-name&gt; 4096 Apr  1 11:20 ../
+drwxr-xr-x  2 &lt;machine-name&gt; &lt;machine-name&gt; 4096 Apr  1 11:20 app/
+-rw-------  1 &lt;machine-name&gt; &lt;machine-name&gt;   44 Apr  1 11:20 ChangeLog.md
+-rw-------  1 &lt;machine-name&gt; &lt;machine-name&gt;   15 Apr  1 11:20 .gitignore
+-rw-------  1 &lt;machine-name&gt; &lt;machine-name&gt; 1521 Apr  1 11:20 LICENSE
+-rw-------  1 &lt;machine-name&gt; &lt;machine-name&gt; 1116 Apr  1 11:20 package.yaml
+-rw-------  1 &lt;machine-name&gt; &lt;machine-name&gt;    7 Apr  1 11:20 README.md
+-rw-------  1 &lt;machine-name&gt; &lt;machine-name&gt;   46 Apr  1 11:20 Setup.hs
+drwxr-xr-x  2 &lt;machine-name&gt; &lt;machine-name&gt; 4096 Apr  1 11:20 src/
+-rw-------  1 &lt;machine-name&gt; &lt;machine-name&gt; 2118 Apr  1 11:20 stack.yaml
+drwxr-xr-x  2 &lt;machine-name&gt; &lt;machine-name&gt; 4096 Apr  1 11:20 test/
+-rw-r--r--  1 &lt;machine-name&gt; &lt;machine-name&gt; 1416 Apr  1 11:20 test.cabal</code></pre>
+<h3 id="navigate-into-app-and-list-main.hs">7. Navigate into <code>app</code> and list <code>Main.hs</code></h3>
+<p>This step is not part of the video. But you should be able to do it by yourself by now. The commands are the same as in the last two steps. In the end, you should exit <code>app</code> and go back to its parent folder. You can do this with</p>
+<pre class="console"><code>$ cd ..</code></pre>
+<p>You can try doing te same with the <code>src</code> folder.</p>
+<h2 id="part-2-run-your-1st-project">Part 2: Run your 1st project</h2>
+<p>I will tell you more about the organisation of stack projects in future blogs. For now, let’s run your project. After all, having a project is of no use if you can’t run it. For this, you need a compiler, that is, a program which looks at your code and, provided it has no errors, translates it into machine language.</p>
+<p>This translation is necessary because machine language differs from machine to machine. However, when we are solving a problem, we want the solution to be the same independently of the computer model we use. Imagine how tedious it would be if each time your machine changed, you had to rewrite your programs. Also, writing code in machine language would be a nightmare. This language consists of sequences of 0s and 1s and is virtually incomprehensible. After a while, you would go ballistic. For your sanity, we let the compiler do the dirty work, and we write code in high-level languages which are closer to human languages.</p>
+<p>Since every programming language is different, each of them requires a different compiler. The most commonly used Haskell compiler is GHC. The compiler also has an interactive version, GHCi, that allows the user to type code directly into it. ‘Okay’, you’ll say. ‘So where do I find this compiler?’ Well, Stack will install this for you.</p>
+<h3 id="install-the-compiler">8. Install the compiler</h3>
+<pre class="console"><code>$ stack setup</code></pre>
+<p>This is a one-off thing; you will not need to rerun this command once the installation is over. It will take a while, though, so go and have a break.</p>
+<h3 id="compile-your-project">9. Compile your project</h3>
+<pre class="console"><code>$ stack build</code></pre>
+<p>Whenever you run this command, make sure that you are in the folder that contains your project. Otherwise, it will return an error. If needed, navigate to <code>project-name</code> with the <code>cd</code> command.</p>
+<h3 id="run-the-project">10. Run the project</h3>
+<pre class="console"><code>$ stack exec &lt;project-name&gt;-exe</code></pre>
+<p>Note that <code>-exe</code> is outside the &lt;&gt; and is an essential part of the command. As above, you must be in your project folder when you use this command. The result will be:</p>
+<pre class="console"><code>$ someFunc</code></pre>
+<p>I admit that this is not very fascinating, but you couldn’t have expected much more from your first project. Stack has only created a dummy project which prints <code>someFunc</code> (short for some function) on the screen. If you wish for something more exciting, you will have to tamper with the project and produce your own code. So let’s see what is inside that project.</p>
+<h3 id="start-ghci">11. Start GHCi</h3>
+<p>You can also run a project from the GHCi, the interactive version of GHC. The difference is that GHCi is a bit slower. This will not matter in most cases, and we will be using GHCi a lot, since the interactive environment makes it easy to load, test and reload code. You can launch GHCi with</p>
+<pre class="console"><code>$ stack ghci</code></pre>
+<p>Additionally, if you are within a project folder, it will automatically load the project on GHCi. You can verify this by the prompt which reads</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="fu">*</span><span class="dt">Main</span> <span class="dt">Lib</span><span class="fu">&gt;</span></code></pre></div>
+<h3 id="run-the-project-from-ghci">12.Run the project from GHCi</h3>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="fu">*</span><span class="dt">Main</span> <span class="dt">Lib</span><span class="fu">&gt;</span> main</code></pre></div>
+<p>This will produce <code>someFunc</code> as before, only now in the GHCi context.</p>
+<h3 id="exit-ghci">13.Exit GHCi</h3>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="fu">*</span><span class="dt">Main</span> <span class="dt">Lib</span><span class="fu">&gt;</span> <span class="fu">:</span>q</code></pre></div>
+<p>Now we are ready to <a href="../posts/some-code.html">introduce some of Haskell’s features and write some code</a>.</p>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'fun-land-1';
+    var disqus_url = 'https://eleni-xar.github.io' + '/posts/getting-started.html';
+    var disqus_title = 'Getting started';
+            
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+</div>
+<div class="col-xs-3"></div>
+</div>
+</div>
+
+
+
+
+
+        </div>
+                      
+        
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        
+                        
+                            Site generated by Eleni Charalampous through
+                            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+    </body>
+</html>

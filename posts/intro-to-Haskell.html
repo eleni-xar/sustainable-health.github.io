@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta name="author" content="Eleni"> 
+        <meta name="keywords" content="types, pattern matching, recursion, grammar">
+        <meta name="description" content="This post introduces some basic features of Haskell such as defining types and pattern matching. It does so by putting into Haskell code the basic model of computation for natural numbers and addition that we created earlier.">
+
+        <meta property="og:title" content="Intro to Haskell">
+       
+         <meta property="og:description" content="This post introduces some basic features of Haskell such as defining types and pattern matching. It does so by putting into Haskell code the basic model of computation for natural numbers and addition that we created earlier.">
+
+        <title>Fun-land blog - Intro to Haskell</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+
+        <link rel="stylesheet" type="text/css" href="../css/asciinema-player.css" />
+        
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+      <!--  <link rel="stylesheet" type="text/css" href="css/960_12_col.css" /> -->
+
+       <!-- <link rel="icon" type="image/ico" href="/images/favicon.ico"> -->
+
+        
+        
+        
+    </head>
+    <body>
+        <nav>
+            <div class="container-fluid">
+                
+                <ul class="navbar-nav">
+                    <li><a href="../">Home</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                    <li><a href="../archive.html">Archive</a></li> 
+                    <li><a href="https://github.com/eleni-xar/eleni-xar.github.io/">Code</a></li>  
+                    <li><a href="../atom.xml"><i class="fa fa-rss"></i>&nbsp;Feed</a></li>          
+                </ul>
+            </div>
+                
+        </nav>
+            
+
+        <div class="container">  
+
+            <div class="article">
+<div class="row">
+<div class="col-xs-3"></div>
+<div class="col-xs-6" id="page">
+
+    
+            <h1>Intro to Haskell</h1> 
+    
+
+
+    <!-- <section class="header">
+        Posted on March 25, 2020
+        
+            by Eleni
+        
+    </section> -->
+    
+        <p>As I mentioned before, in this post, we will turn into real code the definition of addition that we designed in <a href="../posts/model-of-computation.html">A Model of Computation</a>. Arguably, you will never need to write code for something as basic as addition. Programming languages already have inbuilt solutions for arithmetical operations and many other fundamental procedures. Nevertheless, this is an excellent opportunity to introduce Haskell and become familiar with some of its traits.</p>
+<h3 id="opening-main.hs">Opening <code>Main.hs</code></h3>
+<p>First, open a terminal, navigate to your <code>Haskell-projects</code> folder and start a new project. We are going to use this project for addition and other arithmetical operations. So we can call it <code>sa</code>.</p>
+<pre class="console"><code>stack new sa</code></pre>
+<p>Compile the project with</p>
+<pre><code>stack build</code></pre>
+<p>and then, run GHCi with</p>
+<pre><code>stack ghci</code></pre>
+<p>Then you will need an editor. You can choose the editor you like (not Word), but in the long run, it may help you if you use an editor designed for programming. Such editors provide features that make programming easier. Some options are Sublime Text, Vi, Atom, or Emacs. Sublime and Atom are more straightforward to use; the latter is an online editor. Vi requires you to learn some special commands but will serve you well, especially if you can touch-type. Emacs is like Vi but is much more than an only editor; it also offers extensions for almost anything that you might want to do, e.g. read emails, calendar options etc.</p>
+<p>The first thing we’ll do, once your editor is up and running, is to save the yet empty file in front of us. We will put it under the <code>src</code> folder in our <code>sa</code> project. In the previous blog, I explained how we usually divide our code between <code>app</code> and <code>src</code>: the former holds the main application, while the latter serves as a library. However, for the time being, we’ll only use <code>src</code> because our code will be short, and it doesn’t make sense to break it down. A sensible name for your file could be Addition, or Arithmetic if you wish to extend it later with other arithmetical operations. Just make sure that you use a capital for the first letter of the name you choose. This rule is part of the language’s grammar, and if you don’t follow it, stack will ignore your file. The extension for Haskell code files is <code>.hs</code>. Saving the file like this signals to your editor that you wish to write code in Haskell, and thus activates any special features that the editor has for this language.</p>
+<p>The beginning is easy. All Haskell files start in the following way:</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="kw">module</span> <span class="fu">&lt;</span><span class="dt">Module's</span><span class="fu">-</span>name<span class="fu">&gt;</span> <span class="kw">where</span></code></pre></td></tr></table></div>
+<ul>
+<li><code>module</code> and <code>where</code> are Haskell keywords, i.e., words that are reserved by the language for a specific purpose, and you are not allowed to use them differently.</li>
+<li>Haskell files are called modules. The reason behind this is that, in programming, most projects are modular, which means that they combine several sub-projects, aka modules, to form a whole.</li>
+<li><code>where</code> is used as in the sentence: ‘This is page 3 where so and so are written.’ You can imagine the first line of a Haskell program announcing: ‘This is module <module's-name> where so and so are declared.’</li>
+<li>Use the same name that you used when you saved the file, and again use a capital for the first letter. Otherwise, Haskell will complain when you try to run the program.</li>
+</ul>
+<p>We will use our previous work with SA as a guide. So, let’s sum up what we did there:</p>
+<div class="recap">
+<h3 id="recap">Recap</h3>
+<ol style="list-style-type: decimal">
+<li>We expressed natural numbers using <code>next _</code> and <code>0</code>;</li>
+<li>We used the terms <code>true</code> and <code>false</code> to evaluate predicates;</li>
+<li>We introduced the predicate <code>isZero _</code> which returns <code>true</code> when its argument is <code>0</code> and <code>false</code> otherwise.</li>
+<li>We employed <code>if _ then _ else _</code> to capture conditionals;</li>
+<li>We used the function <code>prev _</code> as the inverse of next.</li>
+<li>We put all of the above together to define addition.</li>
+</ol>
+</div>
+<p>In this post, we’ll go over the same steps, translating our work from SA to Haskell. Before we proceed, though, you need to know that in Haskell, as in some other languages, we use types to distinguish between different kinds of values. For instance, we have different types for numbers, truth-values, functions that operate on one number, two numbers, etc. These may seem a lot, but don’t worry. Eventually, we only need to introduce types for any distinct kinds of raw data such as numbers and truth-values. Then we can use these types to define types for functions and applications. We will say more about types and the benefits they bring later. For the time being, just think of types as collections of values which share similar properties.</p>
+<h2 id="natural-numbers-and-truth-values">1-2. Natural numbers and truth-values</h2>
+<h3 id="defining-a-type-truth-values">Defining a type: Truth-values</h3>
+<p>Let’s see how we define a type. First, you need to note whether the type has finite values not. For instance, we have only two truth-values but infinite numbers. The case of a finite type is easy. You simply have to list all the possible values. In particular, regarding truth-values, you don’t need to do anything because Haskell already comes with an in-built type for that purpose. This type is called <code>Bool</code> in memory of the famous English mathematician and logician George Boole, one of the forebearers of computer science. So please don’t include the following in your code.</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Bool</span> 
+  <span class="fu">=</span> <span class="dt">False</span> 
+  <span class="fu">|</span> <span class="dt">True</span></code></pre></td></tr></table></div>
+<p>I am presenting it here only because it can serve as an example of Haskell’s syntax and grammar:</p>
+<ul>
+<li><code>data</code> is the keyword Haskell uses to indicate that what follows is the definition of a type.</li>
+<li><code>Bool</code> is the name of the type, and according to Haskell’s grammar rules, it must start with a capital letter.</li>
+<li><code>=</code> signifies equivalence as in mathematics, indicating that the expressions on its two sides denote the exact same thing. We will use it in the same way when we define functions later.</li>
+<li>The <code>|</code> symbol works as a separator between possible values of the type. In the case of <code>Bool</code>, we have two options: <code>False</code> or <code>True</code>. These are called value constructors and must also begin with a capital letter.</li>
+<li>We could have written the above code in one line. However, breaking it down like this makes it easier to read and navigate, especially in the case when the list of possible values is longer.</li>
+<li>Space at the beginning of a line indicates that this is not really a new line but only a continuation of the previous line.</li>
+</ul>
+<h3 id="defining-a-type-natural-numbers">Defining a type: Natural numbers</h3>
+<p>Now, it would have been perfect if Haskell also had a type for natural numbers. However, unfortunately, this is not the case. Haskell has types for various kinds of numbers, but not for natural numbers. So, we will have to provide it. And this case is a bit trickier. Natural numbers are infinite, and we obviously can’t just list all the values. Instead, we need to describe a way of constructing them.</p>
+<p>In SA, we constructed natural numbers with the help of <code>zero</code> and <code>next</code>, obtaining the set:</p>
+<pre><code>{zero, next zero, next (next zero), next (next (next zero)), next (next (next (next zero))),  next (next (next (next (next zero)))) ...}</code></pre>
+<p>But this is still infinite! Indeed. However, it depends on a pattern that allows us to write it in a more compact form. Note that if we remove the outer layer of <code>next</code> from any number (apart from <code>zero</code>), the result will again be a natural number. This observation suggests that every natural number is either <code>zero</code> or the application of <code>next</code> to some other natural number. So eventually, we again have only two options, and we can define a type <code>Nat</code> for natural numbers as:</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Nat</span> 
+  <span class="fu">=</span> <span class="dt">Zero</span>      <span class="co">-- either Zero</span>
+  <span class="fu">|</span> <span class="dt">Next</span> <span class="dt">Nat</span>    <span class="co">-- or Next applied to some Nat</span>
+  <span class="kw">deriving</span> <span class="dt">Show</span></code></pre></td></tr></table></div>
+<ul>
+<li>I have capitalised <code>Zero</code> and <code>Next</code> in line with Haskell grammar.</li>
+<li>The <code>--</code> are used to introduce comments in Haskell code. Comments help programmers understand code. They are particularly helpful when you are reading code of others or code that you have written ages ago.</li>
+<li>The last line will allow us to print values of type <code>Nat</code> on the screen, which will be very helpful when the time comes to run and test our code.</li>
+</ul>
+<h3 id="recursion-again">Recursion again</h3>
+<p>Notice that <code>Nat</code> appears on both sides of the <code>=</code> symbol. We encountered a similar situation when we defined addition in terms of itself. Then we explained that our definition works in layers: First, we get <code>add m 0</code>, then <code>add m 1</code>, <code>add m 2</code> and so on. Something similar happens here. Just note that the same way that <code>Nat</code> can expand to</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">Zero</span> <span class="fu">|</span> <span class="dt">Next</span> <span class="dt">Nat</span></code></pre></div>
+<p><code>Next Nat</code> can expand to</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">Next</span> <span class="dt">Zero</span> <span class="fu">|</span> <span class="dt">Next</span> <span class="dt">Next</span> <span class="dt">Nat</span></code></pre></div>
+<p><code>Next Next Nat</code> can expand to</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">Next</span> <span class="dt">Next</span> <span class="dt">Zero</span> <span class="fu">|</span> <span class="dt">Next</span> <span class="dt">Next</span> <span class="dt">Next</span> <span class="dt">Nat</span></code></pre></div>
+<p>and so on. So again we are constructing the natural numbers in layers, starting from <code>Zero</code> and adding one layer of <code>Next</code> at a time. We call types like <code>Nat</code> that appear at both sides of their definition recursive.</p>
+<h3 id="types-of-functions">Types of functions</h3>
+<p>We still haven’t talked about the type of <code>Next</code>. Well, <code>Next</code> is a function. To determine the type of a function, we need to know the type(s) of its argument(s) and the type of its result. In the case of <code>Next</code>, we have only one argument, which is a natural number. The result of applying <code>Next</code> is also a natural number. So the type of <code>Next</code> is <code>Nat -&gt; Nat</code>, which you can read as <code>Nat</code> to <code>Nat</code>. Another way to write the same thing is:</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="dt">Next</span><span class="ot"> ::</span> <span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Nat</span></code></pre></td></tr></table></div>
+<p>You could have broken this into more lines like this:</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="dt">Next</span> 
+<span class="ot">  ::</span> <span class="dt">Nat</span> 
+  <span class="ot">-&gt;</span> <span class="dt">Nat</span></code></pre></td></tr></table></div>
+<p>but this is not accustomed in the case of short type declarations.</p>
+<p>Small quiz: What do you think the type of <code>isZero</code> is? (If you are not sure, you will find the answer in the next section).</p>
+<h2 id="iszero-and-the-conditional">3-4. <code>isZero</code> and the conditional</h2>
+<h3 id="defining-a-function-iszero">Defining a function: <code>isZero</code></h3>
+<p><code>isZero</code> is a function that returns <code>True</code> when its argument is <code>Zero</code> and <code>False</code> otherwise. Checking whether something is <code>Zero</code> makes sense only if that something is a natural number. So the type of <code>isZero</code> is:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
+<p>Based on this, you should be able to fill in the following, replacing the two <code>undefined</code> with the proper values. (There will be more of those <code>undefined</code> later on).</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="ot">isZero ::</span> <span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+isZero <span class="dt">Zero</span> <span class="fu">=</span> undefined
+isZero _ <span class="fu">=</span> undefined</code></pre></td></tr></table></div>
+<ul>
+<li>The first line captures <code>isZero</code> type. It is not necessary to include those in the code. Haskell will be able to infer the type of a function, even if you don’t provide it. However, it is good practice to include type declarations in your code, and it is good to adopt such practices sooner than later.</li>
+<li>Contrary to <code>Next</code>, <code>isZero</code> doesn’t start with a capital letter. The reason is that <code>isZero</code> is not a value constructor, and any function that is not a value constructor should begin with a lowercase letter.</li>
+<li>However, I have capitalised ‘Z’ in <code>isZero</code>, following the camelCase convention. CamelCase aims to make names that consist of more than two words more readable by capitalising any inner first letters of words. There are other solutions, but this is the one that the Haskell community has chosen to use.</li>
+<li>The <code>_</code> at the last line of code is not the same as the one in SA. It is part of Haskell’s grammar, and you can use it whenever the argument that you want to pass to a function doesn’t matter.</li>
+<li>It would have been a mistake if we had changed the order of the last two lines of code. If <code>isZero _ = False</code> came first, then our function would ignore any argument and would return <code>False</code> even if applied to <code>Zero</code>.</li>
+</ul>
+<h3 id="testing-a-function">Testing a function</h3>
+<p>Now that we have written a function, let’s test it. You can do this through GHCi. First, you need to save your module. Then reload it to GHCi with:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="fu">:</span>r</code></pre></div>
+<p>Otherwise, GHCi won’t know that you have made any changes to <code>Arithmetic</code>. Then, just type</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">isZero <span class="dt">Zero</span></code></pre></div>
+<p>and press <code>Enter</code>. The result should be</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">True</span></code></pre></div>
+<p>Do the same for some other values such as <code>Next Zero</code>, or <code>Next (Next (Next (Next Zero)))</code>. You will need to put your arguments in brackets or else Haskell will assume that you wish to apply <code>isZero</code> only to <code>Next</code> and not to the whole term. Then GHCi will complain saying that it was expecting a type <code>Nat</code> (the type of arguments of <code>isZero</code>), while the actual type was <code>Nat -&gt; Nat</code> (the type of <code>Next</code>). If you see a message like this, don’t panic. Just make sure all your brackets are in place.</p>
+<h3 id="the-conditional-and-its-type">The conditional and its type</h3>
+<p>We won’t write code for the conditional as the same structure that we used in SA is also a part of Haskell. The conditional is one of the few Haskell functions that consists of separate terms: <code>if</code>, <code>then</code> and <code>else</code>. Its type is tricky. If you remember, the conditional takes three arguments. The first argument is a condition which is either <code>True</code> or <code>False</code>; thus, the first argument is of type <code>Bool</code>. The second and third arguments are alternative options. In this post, the alternative options will be natural numbers, but generally, we would like to be able to use an if-statement with other types too. The only restriction that Haskell imposes is that the two alternatives have the same type. That type will also be the type of the result, since the conditional returns one of the two options. So the type of the conditional is</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="dt">Bool</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</code></pre></td></tr></table></div>
+<p>where a stands for some random type.</p>
+<h2 id="prev-and-add">5-6. <code>prev</code> and <code>add</code></h2>
+<h3 id="defining-a-function-prev">Defining a function: <code>prev</code></h3>
+<p>Like <code>Next</code>, <code>prev</code> is a function of the type <code>Nat -&gt; Nat</code>. It takes us from a number <code>n</code> to its predecessor <code>n - 1</code>. Before I present the code for <code>prev</code>, I would like to note that the definition of <code>Nat</code> does more than providing us with values for natural numbers. It also supplies a guide for writing functions that take a natural number as their argument. To define such a function, we need to specify its behaviour for all possible values of <code>Nat</code>. But, according to the definition of <code>Nat</code>, any value of type <code>Nat</code> will be either <code>Zero</code> or <code>Next</code> applied to some natural number <code>n</code>- <code>Next n</code>. (Note that <code>Next Nat</code> is not a value of type <code>Nat</code>, it is only an expression that illustrates a process for generating such values). Thus, usually, we only need to describe how our function acts on these two cases: <code>Zero</code> and <code>Next n</code>. Essentially, that is what we also did for <code>isZero</code>, although then we used an <code>_</code> in the place of <code>Next n</code>.</p>
+<p>Let’s do the same for <code>prev</code>. We know that <code>prev</code> strips a layer of <code>Next</code> from its argument, turning <code>Next n</code> to <code>n</code>. However, what happens when there is no layer of <code>Next</code>; what happens when the argument is <code>Zero</code>? In mathematics, <code>0 - 1</code> doesn’t make sense if we restrict ourselves to natural numbers; we say that <code>0 - 1</code> is undefined. We could adopt the same solution here. However, if we do so, and then by accident, we pass <code>Zero</code> to <code>prev</code>, Haskell will not know what to do. Therefore, it is safer to provide a value for <code>prev Zero</code>. The only one that seems to make some sense is <code>Zero</code> is itself. Since there’s nothing before <code>Zero</code>, if we try to go back, we just stay where we are. So we can define <code>prev</code> as:</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="ot">prev ::</span> <span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Nat</span>
+prev <span class="dt">Zero</span> <span class="fu">=</span> undefined
+prev (<span class="dt">Next</span> n) <span class="fu">=</span> undefined</code></pre></td></tr></table></div>
+<p>You can again test that <code>prev</code> produces the desired results through the GHCi. (Don’t forget to reload the module with <code>:r</code>.) Just type <code>prev</code> and provide some argument. You may think that this is not necessary for such simple functions, but it is an excellent habit. Programmers test their code all the time. You can never know in advance when you might make a mistake, and is always better to find it out if you have made one sooner than later. Otherwise, it may be difficult to track it down and correct it.</p>
+<h3 id="two-ways-to-define-addition">Two ways to define addition</h3>
+<p>Now we have everything we need to write the code for addition. Note that addition is a function that takes two arguments, both of which are natural numbers. The result is also a natural number. In SA, we had:</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell">add m n <span class="fu">=</span> 
+  <span class="kw">if</span> isZero n 
+    <span class="kw">then</span> m 
+    <span class="kw">else</span> add (next m) (prev n)</code></pre></td></tr></table></div>
+<p>The definition in Haskell is exactly the same. I have only added the type signature above.</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="ot">add ::</span> <span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Nat</span>
+add m n <span class="fu">=</span>
+  <span class="kw">if</span> isZero n
+    <span class="kw">then</span> m
+    <span class="kw">else</span> add (<span class="dt">Next</span> m) (prev n)</code></pre></td></tr></table></div>
+<p>However, in Haskell, we could have achieved the same result without the conditional, using a similar technique as the one we used to define <code>prev</code>:</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="ot">add' ::</span> <span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Nat</span> <span class="ot">-&gt;</span> <span class="dt">Nat</span>
+add' m <span class="dt">Zero</span> <span class="fu">=</span> undefined
+add' m (<span class="dt">Next</span> n) <span class="fu">=</span> undefined</code></pre></td></tr></table></div>
+<p>I used <code>add'</code> so that we don’t end up having two definitions connected to the same function name. Haskell would find this confusing because it has no way of recognising that these two functions are essentially the same, i.e. they return the same value for all arguments. Test this with your GHCi. (It won’t make sense to use too large numbers. Otherwise, it will be tedious to both write the arguments and read the results. We will provide a workaround later.)</p>
+<h3 id="pattern-matching">Pattern matching</h3>
+<p>The technique we used to define <code>add'</code> is called pattern matching. It matches the arguments that we pass to a function to the possible patterns of the appropriate type. In the case of add, we matched the second argument first to <code>Zero</code> and then to <code>Next n</code>. There was no need to match against the first argument because the result of addition depends only on whether the second argument is <code>Zero</code> or not. If for whatever reason we wished to match both arguments, we would have ended up with four combinations: <code>add Zero Zero</code> <code>add Zero (Next n)</code> <code>add (Next m) Zero</code> <code>add (Next  m) (Next n)</code></p>
+<p>The two definitions of <code>add</code> and <code>add'</code> suggest that pattern matching and the conditional do the same thing. However, pattern matching is much stronger. Firstly, the conditional offers only two options, while with pattern matching, we can match against as many patterns as we like. Secondly, you can’t use the conditional to define primitive functions such as <code>isZero</code> or <code>prev</code>. For instance, if we try to use the conditional to define <code>isZero</code>, we will end up with something like</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell">isZero' n <span class="fu">=</span> 
+  <span class="kw">if</span> isZero' n 
+    <span class="kw">then</span> <span class="dt">True</span>
+    <span class="kw">else</span> <span class="dt">False</span></code></pre></td></tr></table></div>
+<p>You may think that this is fine. After all, we defined <code>add</code> in terms of itself. Why can’t we do the same with <code>isZero</code>? Well, do you remember what we explained at the end of A model of computation? We were allowed to provide an apparently cyclical definition of <code>add</code>, because each time we encountered <code>add</code> again, its second argument had decreased. Eventually, the second argument reached <code>Zero</code>, and the computation would terminate. However, in the above conditional, the argument of <code>isZero'</code> is not decreasing; it remains the same at both sides of the <code>=</code> sign. As a result, <code>isZero' n</code> will keep trying to evaluate <code>isZero' n</code> forever, and the computation will never finish. You can check this at your GHCi. Just try to call <code>isZero'</code> with any argument. The calculation will go on and on, and there will be no answer. If you wish to exit this state press <code>Ctrl + C</code> or <code>Ctrl + Z</code>. The latter will kick you out of GHCi, and you may want to restart it (<code>stack ghci</code>), if you plan to play with your code longer.</p>
+<p>You can find the code that we wrode in this blog under [the folder code in my Git repository] (https://github.com/eleni-xar/eleni-xar.github.io/). Solutions to the exrcises that follow are also there. The same link is accessible through the navigation bar at the Code option.</p>
+<h2 id="exercises">Exercises</h2>
+<p>Please remember to provide atype signature for any function that you will define.</p>
+<ol style="list-style-type: decimal">
+<li>Use <code>add</code> to write a function <code>times2</code> that takes a number <code>n</code> and doubles it–i.e., adds it to itself. Then use <code>times2</code> and <code>add</code> to write a function <code>times4</code> (the name should suggest what <code>times4</code> is supposed to do). Can you continue like this? What other functions can you define in this or a similar fashion? Can you do all the numbers up to <code>times8</code>? What are the types of those functions?</li>
+<li>Define a type <code>Parity</code> that has two possible values: <code>Odd</code> and <code>Even</code>. (Look at how we defined <code>Bool</code> earlier.) Use this to write a function <code>parity</code> that takes a natural number and returns its parity, i.e., tells you whether the number is odd or even. (Hint: Use pattern matching for <code>Zero</code>, <code>Next Zero</code>, and <code>Next (Next n)</code>).</li>
+<li>Write a function of type <code>Parity -&gt; Parity</code>. How many functions can of this type can you define? How about functions of type <code>Bool -&gt; Bool</code>? Can you see a similarity between <code>Parity</code> and <code>Bool</code>?</li>
+<li>Write a new <code>parity'</code> function, using one of the <code>Parity -&gt; Parity</code> from the previous exercise. This time restrict pattern matching to <code>Zero</code> and <code>Next n</code>. Notice that parity flips all the time. So if the parity of <code>Next n</code> is <code>Odd</code>, the parity of <code>n</code> is <code>Even</code> and vice versa.</li>
+<li>Define a function <code>isEven</code> that takes a natural number and returns <code>True</code> for even numbers and <code>False</code> for odd numbers. Can you do this in two ways as we did with the <code>parity</code> function?</li>
+<li>Define <code>isOdd</code> with the help of <code>isEven</code> and one of the <code>Bool -&gt; Bool</code> functions from exercise 3. You will not need pattern matching or recursion in this case.</li>
+<li>Define a function <code>nextOdd</code> that takes a natural number and returns the next odd number. You will need the conditionl and <code>isEven</code> or <code>isOdd</code>. Can you explain why you don’t need both? Do the same for <code>nextEven</code>. Then, write a function that returns the next odd if its argument is odd and the next even if its argument is even. What do you notice in this case?</li>
+</ol>
+<p>Feel free to check <a href="https://github.com/eleni-xar/eleni-xar.github.io/">some possible solutions</a></p>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'fun-land-1';
+    var disqus_url = 'https://eleni-xar.github.io' + '/posts/intro-to-Haskell.html';
+    var disqus_title = 'Intro to Haskell';
+            
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+</div>
+<div class="col-xs-3"></div>
+</div>
+</div>
+
+
+
+
+
+        </div>
+                      
+        
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        
+                        
+                            Site generated by Eleni Charalampous through
+                            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+    </body>
+</html>

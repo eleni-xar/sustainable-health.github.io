@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>Fun-land blog</title>
+        <link>https://eleni-xar.github.io</link>
+        <description><![CDATA[Latest blog posts]]></description>
+        <atom:link href="https://eleni-xar.github.io/rss.xml" rel="self"
+                   type="application/rss+xml" />
+        <lastBuildDate>Sun, 19 Apr 2020 00:00:00 UT</lastBuildDate>
+        <item>
+    <title>Meet the Nats!!!</title>
+    <link>https://eleni-xar.github.io/posts/meet-the-nats.html</link>
+    <description><![CDATA[This posts talks about natural numbers and cool things you can do with them.]]></description>
+    <pubDate>Sun, 19 Apr 2020 00:00:00 UT</pubDate>
+    <guid>https://eleni-xar.github.io/posts/meet-the-nats.html</guid>
+    <dc:creator>Eleni Charalampous</dc:creator>
+</item>
+<item>
+    <title>Intro to Haskell</title>
+    <link>https://eleni-xar.github.io/posts/intro-to-Haskell.html</link>
+    <description><![CDATA[This post introduces some basic features of Haskell such as defining types and pattern matching. It does so by putting into Haskell code the basic model of computation for natural numbers and addition that we created earlier.]]></description>
+    <pubDate>Wed, 25 Mar 2020 00:00:00 UT</pubDate>
+    <guid>https://eleni-xar.github.io/posts/intro-to-Haskell.html</guid>
+    <dc:creator>Eleni Charalampous</dc:creator>
+</item>
+<item>
+    <title>Getting started</title>
+    <link>https://eleni-xar.github.io/posts/getting-started.html</link>
+    <description><![CDATA[This posts explains how to install and use stack to compile and run Haskell programms.]]></description>
+    <pubDate>Wed, 11 Mar 2020 00:00:00 UT</pubDate>
+    <guid>https://eleni-xar.github.io/posts/getting-started.html</guid>
+    <dc:creator>Eleni Charalampous</dc:creator>
+</item>
+<item>
+    <title>A model of computation</title>
+    <link>https://eleni-xar.github.io/posts/model-of-computation.html</link>
+    <description><![CDATA[This post gives a flavour of the kind of work that mathematicians studying Theory of Computation would do. In it we build from scratch a modelf of computation that allows us to express natural numbers and define addition. On this basis we introduce recursion.]]></description>
+    <pubDate>Tue, 10 Mar 2020 00:00:00 UT</pubDate>
+    <guid>https://eleni-xar.github.io/posts/model-of-computation.html</guid>
+    <dc:creator>Eleni Charalampous</dc:creator>
+</item>
+<item>
+    <title>A bit of history</title>
+    <link>https://eleni-xar.github.io/posts/a-bit-of-history.html</link>
+    <description><![CDATA[This posts narrates how Theory of Computation, and thus computers, were born.]]></description>
+    <pubDate>Thu, 05 Mar 2020 00:00:00 UT</pubDate>
+    <guid>https://eleni-xar.github.io/posts/a-bit-of-history.html</guid>
+    <dc:creator>Eleni Charalampous</dc:creator>
+</item>
+<item>
+    <title>Why ???</title>
+    <link>https://eleni-xar.github.io/posts/why.html</link>
+    <description><![CDATA[This post suggests why mathematics and programming are so fascinating and worthy of you spending your time to learn them.]]></description>
+    <pubDate>Sun, 01 Mar 2020 00:00:00 UT</pubDate>
+    <guid>https://eleni-xar.github.io/posts/why.html</guid>
+    <dc:creator>Eleni Charalampous</dc:creator>
+</item>
+
+    </channel>
+</rss>

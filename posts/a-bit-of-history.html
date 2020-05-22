@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta name="author" content="Eleni"> 
+        <meta name="keywords" content="computation, history, infinity, philosophy of mathematics">
+        <meta name="description" content="This posts narrates how Theory of Computation, and thus computers, were born.">
+
+        <meta property="og:title" content="A bit of history">
+       
+         <meta property="og:description" content="This posts narrates how Theory of Computation, and thus computers, were born.">
+
+        <title>Fun-land blog - A bit of history</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+
+        <link rel="stylesheet" type="text/css" href="../css/asciinema-player.css" />
+        
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+      <!--  <link rel="stylesheet" type="text/css" href="css/960_12_col.css" /> -->
+
+       <!-- <link rel="icon" type="image/ico" href="/images/favicon.ico"> -->
+
+        
+        
+        
+    </head>
+    <body>
+        <nav>
+            <div class="container-fluid">
+                
+                <ul class="navbar-nav">
+                    <li><a href="../">Home</a></li>
+                    <li><a href="../about.html">About</a></li>
+                    <li><a href="../contact.html">Contact</a></li>
+                    <li><a href="../archive.html">Archive</a></li> 
+                    <li><a href="https://github.com/eleni-xar/eleni-xar.github.io/">Code</a></li>  
+                    <li><a href="../atom.xml"><i class="fa fa-rss"></i>&nbsp;Feed</a></li>          
+                </ul>
+            </div>
+                
+        </nav>
+            
+
+        <div class="container">  
+
+            <div class="article">
+<div class="row">
+<div class="col-xs-3"></div>
+<div class="col-xs-6" id="page">
+
+    
+            <h1>A bit of history</h1> 
+    
+
+
+    <!-- <section class="header">
+        Posted on March  5, 2020
+        
+            by Eleni
+        
+    </section> -->
+    
+        <p>In my <a href="../posts/why.html">previous blog</a>, I used maths+ to refer to both programming and maths, claiming that they have many similarities. Of course, they are not the same, and this can become clear if you consider that there are programmers who don’t feel too comfortable with maths, and mathematicians who shiver when they hear about programming - I used to be one of them. Nevertheless, there is a deep connection between maths and programming, and this is evident in the fact that the latter emerged through a branch of mathematics: Theory of Computation.</p>
+<p>I know that some of you might find history a bit boring and wish to jump to action immediately. If so, you can go to the next blog: <a href="../posts/model-of-computation.html">‘A model of computation’</a>. Nevertheless, I urge you to continue reading. History puts things in context and helps us understand better what it is all about. Also, the following is a good story, showing that even mathematicians are lost from time to time.</p>
+<p>Moreover, in the next blog, we will try to recreate some of the mathematical action that took place in the early 20th century and led to the invention of computers. We are going to see how those mathematicians were thinking, what kind of problems they faced, and how they tackled them. We will do so by rebuilding a simplified version of the tools they used. After all, there’s no better way to build up a reliable toolkit than devising it yourself from scratch. So, Theory of Computation was born in the 1930s. But let’s start a bit earlier.</p>
+<h2 id="chapter-1.-problems-in-paradise">Chapter 1. Problems in paradise</h2>
+<p>Traditionally, experts viewed mathematical knowledge as flowing from some initial statements with the help of some logical rules. Moreover, they believed that those statements (which they call axioms) and the rules were evident to common sense. As a result, they assumed that mathematics was indisputable; in other words, that if something had a mathematical proof, nobody could come and refute it. Mathematics was a paradise of absolute truths.</p>
+<p>However, by the end of the 19th century, some strange results had appeared in mathematics, which shook mathematical certainty. Most of them had to do with the concept of infinity that has rules of its own which don’t seem to obey to common sense. Consider the following example: We have a hotel with an infinite number of rooms, and each of them has a guest inside. Already, this example contradicts common sense. Such a hotel would be unrealistic; it is impossible to have an infinite quantity of anything; everything, no matter how big, has an end.</p>
+<p>Nevertheless, bear with me, and let’s complicate things a bit more. A new guest arrives at the hotel. Typically, the hotel manager would have to tell them: “I am sorry, but we are full.” Nevertheless, in our hotel, the manager, thinks for a while and comes up with the following idea: What if she asked each guest move to the room next door? Then, after all the guests shift rooms, the first room would be empty, and the new guest can move into it.</p>
+<p><img src="../images/history/Hilbert_Hotel_he1.PNG" alt="Hilbert's hotel paradox" height="124" width="250" class="img-responsive" /></p>
+<p>In a regular hotel, guests would not have been able to satisfy the manager’s request. Even in a hotel with a million rooms, the last guest would have nowhere to go; there would be no next room for her. In our infinite hotel, though, this is not a problem; there are always more rooms. And we can take this craziness one step further. If you think about it, the manager would be able to accommodate any number of new guests. She could keep playing the same trick again and again - until, of course, the customers begin to complain about all the moving. Even more, the manager could put up infinite more guests. Try to figure this out for yourselves. If not, you can look up <a href="https://en.wikipedia.org/wiki/Hilbert%27s_paradox_of_the_Grand_Hotel">this solution</a>.</p>
+<p>If you think that all this is nuts, then I would have to agree with you, and so would many mathematicians. So by the turn of the century, mathematicians were divided into two parties: one pro and one against infinity. Such divisions are ordinary when a new controversial concept appears in a field of human knowledge. Some people think that the novel idea is an atrocity and want to ban it from their science. Others are excited by the new prospects that the innovation brings with it, and are unwilling to give it up even though they might recognise that there are some problems. Usually, science moves forward, and the second group wins. Moreover, the debate over the novelty leads to new fascinating results. That was also the fate of infinity.</p>
+<h2 id="chapter-2-the-effort-to-save-the-paradise">Chapter 2: The effort to save the paradise</h2>
+<p>Despite any disagreement over infinity, mathematicians of that time agreed on one thing. Nobody was willing to forfeit the paradise of mathematical certainty. So, since infinity was casting a shadow over that paradise, its proponents of sought to dispel that shadow. They were going to achieve this by proving that mathematics with infinity was consistent, i.e., it could only lead to correct results, and could never yield a contradiction. However, their proof would have to avoid using infinity if it were to be accepted by all.</p>
+<p>By setting the consistency of mathematics as their goal, mathematicians made a subtle but substantial shift to the object of their research. Up to that point, they had never really studied any properties of mathematics itself; it hadn’t been necessary. To understand this, imagine an actor or a dancer. They spend most of their time acting or dancing; only rarely, if ever, they stop to wonder what acting or dancing is, what qualities does it have. By the turn of the 20th century, mathematicians had started asking themselves such questions.</p>
+<p>So what is mathematics, or what is it that mathematicians do? They solve problems, like computers by the way. Okay, but what does it mean to solve a problem? What do mathematicians do when they are solving problems? Again like computers, they perform computations, which brings us to the Theory of Computation, the branch of mathematics that studies computation and its properties, and led to the invention of computers. In this theory, mathematicians study the properties of computation with the help of computational models. We will build such a model in the <a href="../posts/model-of-computation.html">next blog</a>.</p>
+<p>But you will ask: What happened with showing that mathematics is consistent? In a sense, this endeavour had a rather unfortunate ending. Not because anybody proved that mathematics is inconsistent. But if you remember the goal was not merely to prove consistency; the proof also had to use methods that excluded infinity, and in 1931, Kurt Godel showed that this is not possible. Still, despite not achieving its original goal, this mathematical adventure was hardly a waste of time. To the contrary, it changed the face of the world, preparing the ground for the arrival of computers.</p>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'fun-land-1';
+    var disqus_url = 'https://eleni-xar.github.io' + '/posts/a-bit-of-history.html';
+    var disqus_title = 'A bit of history';
+            
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+</div>
+<div class="col-xs-3"></div>
+</div>
+</div>
+
+
+
+
+
+        </div>
+                      
+        
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        
+                        
+                            Site generated by Eleni Charalampous through
+                            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+    </body>
+</html>
