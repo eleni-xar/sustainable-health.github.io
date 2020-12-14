@@ -1,7 +1,6 @@
 module Solutions where
 
-import Arithmetic (Nat, add)
-
+import Arithmetic (Nat(..), add)
 
 -- Exercise 1
 

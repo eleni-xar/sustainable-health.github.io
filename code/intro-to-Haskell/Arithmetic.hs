@@ -21,7 +21,7 @@ add m n =
 
 add' :: Nat -> Nat -> Nat
 add' m Zero = m
-add' m (Next n) = add (Next m) (prev n)
+add' m (Next n) = add (Next m) n
 
 isZero' n = 
   if isZero' n 
