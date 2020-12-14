@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta name="author" content="Eleni"> 
+        <meta name="keywords" content="computation, history, infinity, philosophy of mathematics">
+        <meta name="description" content="This posts narrates how Theory of Computation, and thus computers, were born.">
+
+        <meta property="og:title" content="A bit of history">
+       
+         <meta property="og:description" content="This posts narrates how Theory of Computation, and thus computers, were born.">
+
+        <title>Fun-land blog - A bit of history</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+
+       <!-- icons from fontawesome -->
+       <script src="https://kit.fontawesome.com/b3149e0bec.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" type="text/css" href="../css/asciinema-player.css" />
+        
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+      <!--  <link rel="stylesheet" type="text/css" href="css/960_12_col.css" /> -->
+
+       <!-- <link rel="icon" type="image/ico" href="/images/favicon.ico"> -->
+
+        
+        
+        
+    </head>
+    <body>
+        <nav>
+            <div class="container-fluid">
+                
+                <ul class="navbar-nav">
+                    <li><a href="../">Home</a></li>
+                    
+                        <li><a href="../blogs.html">Blog</a></li>
+                        <li><a href="../archive.html">Archive</a></li> 
+                        <li><a href="https://github.com/eleni-xar/eleni-xar.github.io/">Code</a></li>  
+                        <li><a href="../atom.xml"><i class="fa fa-rss"></i>&nbsp;Feed</a></li>
+                        
+                    
+                    
+                </ul>
+            </div>
+                
+        </nav>
+            
+
+        <div class="container">  
+
+            <div class="article">
+<div class="row">
+<div class="col-xs-3"></div>
+<div class="col-xs-6" id="page">
+
+    
+            <h1>A bit of history</h1> 
+    
+
+
+    <!-- <section class="header">
+        Posted on March  5, 2020
+        
+            by Eleni
+        
+    </section> -->
+    
+        <p>In my <a href="../posts/why.html">previous blog</a>, I used maths+ to refer to programming and maths together. Of course, these are two different subjects. That must be why there are programmers who don’t feel too comfortable with maths and vice versa. (I used to love maths but find programming a pain. Only later, I learned to love both.) Still, there is a deep connection between programming and maths. After all, programming emerged through a branch of mathematics: Theory of Computation.</p>
+<p>I know that some of you might find history a bit boring and wish to jump to action immediately. If so, you can go to the <a href="../posts/model-of-computation.html">next blog</a>. Nevertheless, I urge you to continue reading. History puts things in context and helps us understand better what it is all about. Also, the following is a good story. It shows that even mathematicians are lost from time to time.</p>
+<p>Moreover, in the next blog, we’ll try to get in the shoes of this story’s heroes. We’ll consider what kind of problems they faced, and how they tackled them. Thus, we are going to get a first-hand taste of the activity that led to the invention of computers. In the process, we’ll become familiar with some of the most fundamental tools of programming and maths. So, Theory of Computation was born in the 1930s. But let’s start a bit earlier.</p>
+<h2 id="chapter-1.-problems-in-paradise">Chapter 1. Problems in paradise</h2>
+<p>Traditionally, experts viewed mathematical knowledge as absolutely solid. At its foundations lay some common sense statements, and everything else emerged from them through logical rules. Thus, it was impossible to refute something that had a mathematical proof; mathematics was a paradise of certainty.</p>
+<p>However, by the end of the 19th century, some strange results had appeared in mathematics. These results were threatening to shake mathematical certainty. They mostly involved the concept of infinity which is a weird beast. It has rules of its own that don’t seem to obey common sense. Consider the following example. We have a hotel with an infinite number of rooms, each with a separate guest. Already, this example contradicts common sense. It is impossible to have an endless quantity of anything. Everything, no matter how big, has an end.</p>
+<p>Nevertheless, bear with me, and let’s complicate things a bit more. A new guest arrives at the hotel. Typically, the hotel manager would have to say: “I am sorry, but we’re full.” Nevertheless, in our infinite hotel, the manager’s hospitality also knows no bounds. So she quickly comes up with the following creative solution. What if she asked each guest to move to the room next door? Then, after all the guests shifted rooms, the first room would be empty, and she could give it to the new guest.</p>
+<p><img src="../images/history/Hilbert_Hotel_he1.PNG" alt="Hilbert's hotel paradox" height="124" width="250" class="img-responsive" /></p>
+<p>In a regular hotel, guests would not have been able to satisfy the manager’s request. Even in a hotel with a million rooms, the last guest would have nowhere to go. There would be no next room for her. In our infinite hotel, though, this is not a problem because there are always more rooms. And we can take this craziness one step further. Think about it. The manager can accommodate any number of new guests. She can keep playing the same trick again and again - until, of course, the customers begin to complain about all the moving. Even more, the manager can put up infinite more guests. If you don’t believe me, you can check up <a href="https://en.wikipedia.org/wiki/Hilbert%27s_paradox_of_the_Grand_Hotel">this solution</a>.</p>
+<p>If you think that all this is nuts, then I would have to agree with you. I mean, I find infinity exciting, but it is weird. That is why, by the end of the 19th century, mathematicians were divided into two parties. One was in favour of infinity and the other against it. Such divisions are ordinary when controversial concepts appear in a field of human knowledge. Some people think that the novel idea is an atrocity. Others are excited by the new prospects that the innovation brings with it. Usually, science moves forward, and the second group wins. In any event, the debate leads to new fascinating results. That was also the fate of infinity. ##Chapter 2: The effort to save the paradise</p>
+<p>Despite any disagreement over infinity, mathematicians of that time agreed on one thing. Nobody was willing to give up the paradise of mathematical certainty. So the proponents of infinity came up with a plan. They would prove that mathematics with infinity was consistent. In mathematics, if a theory is consistent, then it can only lead to valid results. If they could show that results involving infinity were correct, then it wouldn’t matter if they seemed weird. However, their proof would have to avoid using infinity. Otherwise, it would not be accepted by all.</p>
+<p>By setting the consistency of mathematics as their goal, mathematicians changed the object of their research. Up to that point, they had never really studied any properties of mathematics itself. To understand this, imagine an artist. She spends most of her time practising her art. Only rarely, she stops to wonder what the qualities of this art are. By the turn of the 20th century, mathematicians had started asking themselves such questions.</p>
+<p>So what is mathematics, or what is it that mathematicians do? They solve problems, like computers by the way. Okay, but what does it mean to solve a problem? What do mathematicians do when they are solving problems? Again like computers, they perform computations. So mathematicians started studying computation. Eventually, Theory of Computation was born, and computers followed a short while later.</p>
+<p>You may ask: What happened with showing that mathematics is consistent? In a sense, this endeavour had a rather unfortunate ending. Not because anybody proved that mathematics is inconsistent. But if you remember, the goal was not merely to prove consistency. The proof also had to use methods that excluded infinity. However, in 1931, Kurt Gödel showed that designing such a proof is impossible. Still, this mathematical adventure was hardly a waste of time. Even though it didn’t achieve its original goal, it changed the face of the world, preparing the ground for the arrival of computers.</p>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'fun-land-1';
+    var disqus_url = 'https://eleni-xar.github.io' + '/posts/a-bit-of-history.html';
+    var disqus_title = 'A bit of history';
+            
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+</div>
+<div class="col-xs-3"></div>
+</div>
+</div>
+
+
+
+ 
+
+        </div>
+                      
+        
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        
+                        
+                            Site generated by Eleni Charalampous through
+                            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </footer>
+    </body>
+</html>

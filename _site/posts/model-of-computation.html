@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <meta name="author" content="Eleni"> 
+        <meta name="keywords" content="computation, addition, natural numbers, recursion, induction">
+        <meta name="description" content="This post gives a flavour of the kind of work that mathematicians studying Theory of Computation would do. In it we build from scratch a modelf of computation that allows us to express natural numbers and define addition. On this basis we introduce recursion.">
+
+        <meta property="og:title" content="A model of computation">
+       
+         <meta property="og:description" content="This post gives a flavour of the kind of work that mathematicians studying Theory of Computation would do. In it we build from scratch a modelf of computation that allows us to express natural numbers and define addition. On this basis we introduce recursion.">
+
+        <title>Fun-land blog - A model of computation</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+
+       <!-- icons from fontawesome -->
+       <script src="https://kit.fontawesome.com/b3149e0bec.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" type="text/css" href="../css/asciinema-player.css" />
+        
+        <link rel="stylesheet" type="text/css" href="../css/default.css" />
+      <!--  <link rel="stylesheet" type="text/css" href="css/960_12_col.css" /> -->
+
+       <!-- <link rel="icon" type="image/ico" href="/images/favicon.ico"> -->
+
+        
+        
+        
+    </head>
+    <body>
+        <nav>
+            <div class="container-fluid">
+                
+                <ul class="navbar-nav">
+                    <li><a href="../">Home</a></li>
+                    
+                        <li><a href="../blogs.html">Blog</a></li>
+                        <li><a href="../archive.html">Archive</a></li> 
+                        <li><a href="https://github.com/eleni-xar/eleni-xar.github.io/">Code</a></li>  
+                        <li><a href="../atom.xml"><i class="fa fa-rss"></i>&nbsp;Feed</a></li>
+                        
+                    
+                    
+                </ul>
+            </div>
+                
+        </nav>
+            
+
+        <div class="container">  
+
+            <div class="article">
+<div class="row">
+<div class="col-xs-3"></div>
+<div class="col-xs-6" id="page">
+
+    
+            <h1>A model of computation</h1> 
+    
+
+
+    <!-- <section class="header">
+        Posted on March 10, 2020
+        
+            by Eleni
+        
+    </section> -->
+    
+        <p>In my <a href="../posts/a-bit-of-history.html">previous blog</a>, I explained how Theory of Computation was born. In this theory, mathematicians study the properties of computation with the help of models of computation. Models of computation are like languages. They have words, or terms as mathematicians would call them, and ways of combining them to build more complex structures. To get a taste of what this is, let’s try to construct a model for arithmetical operations between natural numbers, that is <code>{0, 1, 2, 3, 4 ... }</code>. Let’s call the model SA for simple arithmetic.</p>
+<p>If you wonder what the point of this exercise is, let me tell you that essentially all programming languages are computational models. The computations that we will express using our model will resemble code, and some of the techniques that we will use are fundamental programming tools. Moreover, the following example illustrates how thinking about computation can help us look deeper into mathematical concepts, and in turn, how this can be useful for enhancing our computational investigations. So let’s begin.</p>
+<h2 id="natural-numbers">Natural numbers</h2>
+<p>To come up with a model, we must first consider what the model’s purpose is. For arithmetic, we need at least a language which will be able to express numbers. An easy way to achieve this would be to include in SA a term for each natural number. This answer is correct, but not what mathematicians would call elegant. The resulting model would contain infinite terms, and in mathematics, we try to be economical; we wish to achieve our goal using the least possible necessary tools.</p>
+<p>So, is there a less wordy way to express natural numbers? After all, natural numbers are infinite. True, but it might be possible to use composite terms for bigger numbers. Remember, natural numbers have a fundamental property: they start from <code>0</code>, and then, each new number is the result of adding <code>1</code> to the previous number. This property suggests that we can build all natural numbers with just two terms. Take a minute to think which? We need <code>0</code> and a term which adds <code>1</code>, let’s call this <code>next</code>. Then we have</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">{<span class="dv">0</span>, next <span class="dv">0</span>, next (next <span class="dv">0</span>), next (next (next <span class="dv">0</span>)) <span class="fu">...</span>}</code></pre></div>
+<p>You might complain that this is cumbersome. If we wished to use <code>10</code>, we would have to write <code>next</code> <code>10</code> times. Imagine if we wanted to use <code>100</code> or <code>1000</code>! You are right, but now that we have a way of constructing <code>100</code> and <code>1000</code> out of <code>0</code> and <code>next</code>, we can introduce our familiar numerals as abbreviations. So, for example, in the following, I will be writing <code>3</code> instead of <code>next (next (next 0))</code>. However, you must keep in mind that <code>3</code> is not an original term of SA. It is only the short version of <code>next (next (next 0))</code>. This strategy is quite common: when a composite term is too complex to read, we often give it a shorter name which we then use instead.</p>
+<p>Representing a number <code>n</code> as</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">next (next (<span class="fu">...</span> (next zero)<span class="fu">...</span> ))</code></pre></div>
+<p>where <code>next</code> appears <code>n</code> times has one additional advantage over using a special word for each number. Note how the notation with <code>next</code> holds information about the structure of the number; it tells us how we can obtain that number from <code>0</code>. It also suggests how we can go back to <code>0</code> if we start from that number, stripping one layer of <code>next</code> at a time. All this information would not have been available to us otherwise. The name <code>4</code>, for example, may mean something to you, but it wouldn’t mean anything to SA. The model has no way of knowing what <code>4</code> is unless we provide that information, and using <code>next</code> allows us to do exactly that.</p>
+<p>So far, the list of the words in SA is</p>
+<ul>
+<li><code>0</code></li>
+<li><code>next _</code></li>
+</ul>
+<p>I used brackets too, but their role was more like a punctuation symbol, marking off groups of wordsH. You can also see that I have added an underscore after <code>next</code>. I did so because <code>next</code> awaits for a number, as in <code>next 0</code>, to be complete. Terms like <code>next _</code> which make use of one, or possibly more, underscores are called functions. The words that we plug in the place of <code>_</code> are the function’s arguments, and when we write <code>next 0</code>, for example, we say that we have applied the function <code>next</code> to the argument <code>0</code>. Once we apply a function to an argument, we can evaluate it. For instance, the value of <code>next 0</code> is <code>1</code>.</p>
+<h2 id="first-exploration">First exploration</h2>
+<p>Okay, now that we have the numbers, we can go on to define mathematical operations. We will start with the simplest of them: addition. Like <code>next</code>, a term for addition will not make sense by itself; it will need two numbers to complete its meaning. Hence that term must be a function with two arguments, e.g. <code>add _ _</code>. Again there is an easy but not elegant way out. We can simply include</p>
+<ul>
+<li><code>add _ _</code></li>
+</ul>
+<p>in SA, and our job would be over. You may even claim that this solution is economical; we used only one more word. However, there is a different kind of economy, one that is not about having fewer terms but having simpler terms.</p>
+<p>For instance, <code>next</code> is simpler than <code>add</code>. We may call <code>next</code> a primitive function because it consists of only one computational step which we can’t break down any further. That step is adding <code>1</code>. On the contrary, <code>add</code> is what we may call a composite function; it involves potentially many computational steps. If you are not convinced, think what addition is. What we effectively do when we add two numbers, <code>m</code> and <code>n</code>, is that we begin with <code>m</code> and add <code>1</code> to it <code>n</code> times. In SA language, we start with <code>m</code>, and we apply <code>next</code> to it <code>n</code> times. These are <code>n</code> computational steps. In the name of economy, we would like SA to include only primary functions. Then we can use those to build up composite functions.</p>
+<p>Now, I can hear you saying: ‘Perfect! If to add <code>m</code> and <code>n</code> we only have to apply <code>next</code> to <code>m</code> <code>n</code> times, then this is over. We already have <code>next</code> in SA, so we already have everything that we need to define addition. Right?’ Well, not exactly. To understand this, imagine what you would do to add <code>13 + 25</code> using repeated applications of <code>next</code>. You wouldn’t only start applying <code>next</code> to <code>13</code>. You would also begin counting up to <code>25</code>. If you didn’t do this, then you wouldn’t know when to stop.</p>
+<p>So can SA to count up to <code>25</code>, or to any number for that number? Take some time before toy answer this question. Your first impulse may be to say <code>yes</code>, because again, what else is counting than applying <code>next</code> to <code>0</code>? But we still have the same problem. We can start using next, but how do we know when to stop?</p>
+<h2 id="back-to-maths">Back to maths</h2>
+<p>There are two ways forward:</p>
+<ul>
+<li>We can introduce new terms in SA that would allow us to count until we reach a specific target.</li>
+<li>We can go back to mathematics and consider the properties of addition to see if there are any other ideas we can get from there.</li>
+</ul>
+<p>Both ways have the potential of leading you to an answer. However, the second one is cleaner, in the sense that it keeps in focus our original goal which is to define addition. To the contrary, the first way forces us to take a detour. It may be that this detour is necessary, but we can’t be sure about this unless we go back to addition and its properties.</p>
+<p>You may complain, though, that this task is too open-ended. How can you guess which properties of addition may be useful? If you go about blindly, this may take quite a while. Well, the situation is not that bad. We do have a lead. We know that SA includes <code>next</code>, and form our investigation so far, we can guess that this term will play a role in our definition of addition. So let’s consider addition in relation to <code>next</code>, i.e. <code>+ 1</code>. Let’s start with <code>m + n</code> and examine what happens if we increase <code>m</code> by <code>1</code>:</p>
+<pre><code>m + n = (m+1) + ...</code></pre>
+<p>To keep the balance, we would have to decrease <code>n</code> by <code>1</code>:</p>
+<pre><code>m + n = (m+1) + (n-1)</code></pre>
+<p>Of course, for the above to make sense in natural numbers, <code>n</code> must be greater than <code>0</code>. Otherwise, <code>n - 1</code> would be undefined. If <code>n</code> is <code>0</code> though, we don’t need the above formula. We know from maths that adding <code>0</code> to a number leaves the number unchanged:</p>
+<pre><code>m + 0 = m</code></pre>
+<p>Our examination of addition revealed a few valuable things already. Let’s sum them up:</p>
+<ul>
+<li>There are two relevant formulas that we can use. One for when <code>n</code> is <code>0</code>, and one for all other cases. Therefore, we need a way to choose different paths, depending on a particular condition.</li>
+<li>The condition that we care about is whether a number is <code>0</code>; so it would be helpful if we had a term which could check whether this is the case.</li>
+<li>The formula for when <code>n</code> is not <code>0</code> suggests that we would benefit if apart from a way to express <code>+ 1</code>, we also had a term for expressing <code>- 1</code>.</li>
+</ul>
+<p>So now let’s see how we can incorporate these observations in SA to help us express addition.</p>
+<h2 id="conditions">Conditions</h2>
+<p>Notice that suddenly we are not only talking about numbers; we are also referring to conditions. If SA is to include conditions, it will need the vocabulary to describe whether a condition holds or not. Therefore, we need to add two more terms to SA, one which will mean ‘yes, it holds’, and one which will mean the opposite. Traditionally, mathematicians and programmers have used the terms <code>true</code> and <code>false</code>.</p>
+<p>Now let’s consider how we can break a computation into two different branches depending on whether a certain condition applies or not. We don’t need to go back to maths for this. The structure we are looking for is already available in the English language. It is the conditional: ‘If … then … else …’. We’ll borrow it as it is, and create the function <code>if _ then _ else _</code> which takes three arguments. The first argument is the condition, and the other two arguments are alternative options. <code>if _ then _ else _</code> will return the first option if the condition is <code>true</code>, and the second option otherwise, i.e. the condition is <code>false</code>.</p>
+<p>To check whether a number is <code>0</code>, we need yet another function which takes one argument and returns <code>true</code> if that argument is <code>0</code> and <code>false</code> otherwise. We’ll call this function <code>isZero</code>. Functions like this which return either <code>true</code> or <code>false</code> are called predicates.</p>
+<p>Observe that essentially predicates describe conditions, and can thus be used in combination with an <code>if _ then _ else _</code> statement. For instance, we can have</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">if</span> (isZero n) <span class="kw">then</span> _ <span class="kw">else</span> _</code></pre></div>
+<p>This statement checks if the argument <code>n</code> is <code>0</code> and proceeds accordingly. But isn’t this what we needed to find the result of <code>add m n</code>? And we can go even further. Remember the formula for <code>n</code> is <code>0</code>? In that case, <code>m</code> remains as is. So we can fill the first of the above gaps with <code>m</code> and obtain:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">if</span> (isZero n) <span class="kw">then</span> m <span class="kw">else</span> _</code></pre></div>
+<h2 id="counting-down">Counting down</h2>
+<p>We will use the other formula to fill in the second gap. However, that formula was somewhat more complicated. If you recall it included <code>m + 1</code> and <code>n - 1</code>. We can already express the former as <code>next m</code>, but we need a new term for the latter. That term will have the result of subtracting <code>1</code> from a number. Hence, this new term must take an argument; i.e., it must be a function.</p>
+<p>To understand better how the new term must work, firstly recall that subtracting <code>1</code> is the inverse of adding <code>1</code>, in the sense that <code>-1</code> undoes the result of <code>+1</code>. Secondly, remember that, in SA, we represent numbers by nested applications of <code>next</code> to <code>0</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">next (next (<span class="fu">...</span> (next <span class="dv">0</span>)<span class="fu">...</span> ))</code></pre></div>
+<p>and that <code>next</code> is essentially SA’s way of adding <code>1</code>. So to take away <code>1</code>, we effectively have to undo the result of <code>next</code>. To indicate that the new function is the inverse of <code>next</code>, we can call it <code>prev</code> for previous. Then, the result of the application <code>prev (next m)</code> must be <code>m</code>. In other words, applying <code>prev</code> has the result of removing one layer of <code>next</code> from its argument.</p>
+<p>Now we can re-write</p>
+<pre><code>(m + 1) + (n - 1)</code></pre>
+<p>in SA as</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">add (next m) (prev n)</code></pre></div>
+<p>Note how <code>prev</code> essentially provides us with a way of counting down from a number <code>n</code> to <code>zero</code>.</p>
+<h2 id="addition">Addition</h2>
+<p>We finally have all the ingredients to complete the definition of addition:</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="kw">if</span> isZero n
+  <span class="kw">then</span> m 
+  <span class="kw">else</span> add (next m) (prev n)</code></pre></td></tr></table></div>
+<p>Writing the conditional over multiple lines increases readability. The second and third lines are indented to indicate that they are a continuation of the <code>if</code>-statement. Effectively, the <code>then-</code> and <code>else-</code>expressions are subordinate clauses of the conditional.</p>
+<p>The list of all the terms we used is:</p>
+<ul>
+<li><code>0</code></li>
+<li><code>true</code></li>
+<li><code>false</code></li>
+<li><code>next _</code></li>
+<li><code>prev</code></li>
+<li><code>isZero _</code></li>
+<li><code>if _ then _ else</code></li>
+</ul>
+<p>However, you may complain, noticing that we also used <code>add _ _</code>, and we did so before we had even defined it. We cheated; a proper definition of <code>add</code> should not include <code>add</code>. After all, if we have not defined <code>add</code> yet, how are we justified in using it? Mathematicians have solved this problem and proved that it is okay to use seemingly cyclical definitions as the above. However, the proof is quite technical and thus beyond the scope of this post, although we may come to it later.</p>
+<p>For the time being, I can provide an intuitive explanation for why this kind of ‘cheating’ is okay. However, it would help if before doing so, we saw an example of our definition in action. Let’s calculate <code>add m n</code> in the case when <code>m</code> is <code>5</code> and <code>n</code> is <code>3</code>, i.e., <code>add 5 3</code>. In the following, I have used an arrow between different computational steps to indicate that the step after the arrow follows from the one before it.</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell">add <span class="dv">5</span> <span class="dv">3</span> 
+<span class="ot">=&gt;</span> <span class="kw">if</span> isZero <span class="dv">3</span>
+  <span class="kw">then</span> <span class="dv">5</span> 
+  <span class="kw">else</span> add (next <span class="dv">5</span>) (prev <span class="dv">3</span>)</code></pre></td></tr></table></div>
+<p><code>isZero 3</code> evaluates to false, so the result of the above<code>if</code>-statement is the term that follows after <code>else</code>:</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell">add (next <span class="dv">5</span>) (prev <span class="dv">3</span>) 
+<span class="ot">=&gt;</span> add <span class="dv">6</span> <span class="dv">2</span></code></pre></td></tr></table></div>
+<p>If we continue if a similar fashion, we obtain</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell">add <span class="dv">6</span> <span class="dv">2</span> 
+<span class="ot">=&gt;</span> <span class="kw">if</span> isZero <span class="dv">2</span>
+  <span class="kw">then</span> <span class="dv">6</span> 
+  <span class="kw">else</span> add (next <span class="dv">6</span>) (prev <span class="dv">2</span>)
+<span class="ot">=&gt;</span> add (next <span class="dv">6</span>) (prev <span class="dv">2</span>) 
+<span class="ot">=&gt;</span> add <span class="dv">7</span> <span class="dv">1</span> 
+<span class="ot">=&gt;</span> <span class="kw">if</span> isZero <span class="dv">1</span>
+  <span class="kw">then</span> <span class="dv">7</span> 
+  <span class="kw">else</span> add (next <span class="dv">7</span>) (prev <span class="dv">1</span>) 
+<span class="ot">=&gt;</span> add (next <span class="dv">7</span>) (prev <span class="dv">1</span>) 
+<span class="ot">=&gt;</span> add <span class="dv">8</span> <span class="dv">0</span> 
+<span class="ot">=&gt;</span> <span class="kw">if</span> isZero <span class="dv">0</span> 
+  <span class="kw">then</span> <span class="dv">8</span>
+  <span class="kw">else</span> add (next <span class="dv">8</span>) (prev <span class="dv">0</span>)
+<span class="ot">=&gt;</span> <span class="dv">8</span></code></pre></td></tr></table></div>
+<p>In the last <code>if</code>-statement, <code>isZero 0</code> evaluates to <code>true</code>, so the result is the term after <code>then</code>, and the computation stops.</p>
+<h2 id="recursion">Recursion</h2>
+<p>Now notice how the second argument of <code>add</code> continued dropping with each new <code>if</code>-statement. We started with <code>3</code>; <code>3</code> became <code>2</code>, which in turn, decreased to <code>1</code>, and finally to <code>0</code>. The same would be the case if we had added any two numbers. <code>add m n</code>, depends only on instances of <code>add</code> where the second argument is less than <code>n</code>. So imagine that we had defined <code>add m n</code> in layers depending on the second argument: First, <code>add m 0</code>, then <code>add m 1</code> and so on. Defining <code>add m 0</code> is straightforward; the result is simply <code>m</code>, and this definition is not cyclical. Once we have <code>add m 0</code>, we can use it to define <code>add m 1</code>; then we can use both of them to define <code>add m 2</code> etc. In the light of the above, you can think of:</p>
+<div class="sourceCode"><table class="sourceCode numberLines haskell"><tr class="sourceCode"><td class="lineNumbers"><pre>1
+2
+3
+</pre></td><td class="sourceCode"><pre><code class="sourceCode haskell"><span class="kw">if</span> isZero n
+  <span class="kw">then</span> m 
+  <span class="kw">else</span> add (next m) (prev n)</code></pre></td></tr></table></div>
+<p>as capturing all the layers <code>add m 0</code>, <code>add m 1</code> etc. in a more compact form.</p>
+<p>So from now on, we will use <code>add m n</code> as an abbreviation of the above conditional. The technique of defining a function in terms of itself is called recursion and is very common in programming. Eventually, what makes recursion with natural numbers possible is the mathematical principle of induction. This principle states that if we wish to prove a property for all natural numbers, then it is sufficient to: 1. verify that the property is true for <code>0</code>; 2. prove that if the property holds for a number <code>n</code>, then it also holds for the next number <code>n + 1</code>.</p>
+<p>If you think about it, you will see that the basis of induction is the same layered approach that we used for recursion. We start with <code>0</code>, and we use the fact we establish for <code>0</code> to prove the property for <code>1</code>. Then, similarly, we use <code>1</code> to jump to <code>2</code> and so on. Soon we will use recursion to define multiplication and other operations between numbers. However, before doing so, we will turn our work in SA into actuall code.</p>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'fun-land-1';
+    var disqus_url = 'https://eleni-xar.github.io' + '/posts/model-of-computation.html';
+    var disqus_title = 'A model of computation';
+            
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+</div>
+<div class="col-xs-3"></div>
+</div>
+</div>
+
+
+
+ 
+
+        </div>
+                      
+        
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        
+                        
+                            Site generated by Eleni Charalampous through
+                            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </footer>
+    </body>
+</html>
