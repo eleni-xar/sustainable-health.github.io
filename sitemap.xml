@@ -55,4 +55,25 @@
     <priority>0.8</priority>
   </url>
 
+  <url>
+    <loc>https://eleni-xar.github.io/blogs.html</loc>
+    <lastmod></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://eleni-xar.github.io/index.html</loc>
+    <lastmod>December 16, 2020</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://eleni-xar.github.io/philosophy.html</loc>
+    <lastmod></lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
